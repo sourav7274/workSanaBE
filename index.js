@@ -13,7 +13,13 @@ const Team = require('./models/team.model');
 const User = require('./models/user.model');
 initialDatabase();
 
-app.use(cors());
+const corsOptions = {
+    origin:"*",
+    credentials: true,
+   optionSuccessStatus: 200
+}
+
+app.use(cors(corsOptions));
 app.use(express.json());
 
 const jwt_secret = 'secret';
