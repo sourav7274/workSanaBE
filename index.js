@@ -37,7 +37,7 @@ const verifyToken = (req, res, next) => {
         req.user = decodedToken;
         next(); // Proceed to the next middleware/route handler
     } catch (error) {
-        return res.status(402).json({ message: "Invalid token" });
+        return res.status(401).json({ message: "Invalid token" }); // Change to 401
     }
 };
 
