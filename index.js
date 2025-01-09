@@ -84,7 +84,7 @@ async function searchUser(mail, pass) {
 app.post("/validate", verifyToken, async (req, res) => {
     try {
         // The user object is added to the request by the verifyToken middleware
-        const user = req.user;
+        const user = await req.user;
 
         if (!user) {
             return res.status(401).json({ message: "User not found" });
