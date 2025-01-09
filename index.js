@@ -24,9 +24,8 @@ app.use(express.json());
 
 const jwt_secret = 'secret';
 
-// Middleware to verify the token
 const verifyToken = (req, res, next) => {
-    const token = req.headers['authorization'];
+    const token = req.headers['authorization']?.split(' ')[1];  // Ensure token is extracted properly
 
     if (!token) {
         return res.status(401).json({ message: "No token provided" });
@@ -34,12 +33,13 @@ const verifyToken = (req, res, next) => {
 
     try {
         const decodedToken = jwt.verify(token, jwt_secret);
-        req.user = decodedToken;
-        next(); // Proceed to the next middleware/route handler
+        req.user = decodedToken;  // Attach decoded token to request object
+        next();  // Proceed to next handler
     } catch (error) {
-        return res.status(401).json({ message: "Invalid token" }); // Change to 401
+        return res.status(401).json({ message: "Invalid token" }); // Token validation failed
     }
 };
+
 
 // Signup route
 async function saveNewUser(data) {
