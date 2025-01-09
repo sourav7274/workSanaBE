@@ -80,6 +80,25 @@ async function searchUser(mail, pass) {
     }
 }
 
+// Validate route
+app.post("/validate", verifyToken, async (req, res) => {
+    try {
+        // The user object is added to the request by the verifyToken middleware
+        const user = req.user;
+
+        if (!user) {
+            return res.status(401).json({ message: "User not found" });
+        }
+
+        // If token is valid, return the user data
+        res.status(200).json({ message: "Token is valid", user });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ message: "Error validating token" });
+    }
+});
+
+
 app.post("/signin", async (req, res) => {
     try {
         const email = req.body.email;
